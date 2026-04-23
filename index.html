@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SeriesTracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">ST</span>
+        <span class="logo-text">SeriesTracker</span>
+      </div>
+      <nav class="nav-filters">
+        <button class="filter-btn active" data-filter="all">Todas</button>
+        <button class="filter-btn" data-filter="watching">Viendo</button>
+        <button class="filter-btn" data-filter="completed">Completadas</button>
+        <button class="filter-btn" data-filter="plan_to_watch">Por ver</button>
+        <button class="filter-btn" data-filter="dropped">Abandonadas</button>
+      </nav>
+      <button class="btn-add" id="btnOpenModal">+ Nueva</button>
+    </div>
+  </header>
+
+  <!-- Hero banner -->
+  <div class="hero">
+    <div class="hero-text">
+      <p class="hero-sub">Colección personal — Series</p>
+      <h1 class="hero-title">Lo que<br><em>estás viendo</em></h1>
+    </div>
+    <div class="hero-stats" id="heroStats">
+      <div class="stat">
+        <span class="stat-num" id="statTotal">0</span>
+        <span class="stat-label">Total</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="statWatching">0</span>
+        <span class="stat-label">Viendo</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="statCompleted">0</span>
+        <span class="stat-label">Completas</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notifications -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Main content -->
+  <main class="main">
+    <div class="series-grid" id="seriesGrid"></div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="empty-icon">▭</div>
+      <h2>Sin series aún</h2>
+      <p>Agrega tu primera serie para empezar</p>
+      <button class="btn-add" onclick="openModal()">+ Agregar</button>
+    </div>
+    <div class="loading-state" id="loadingState">
+      <div class="spinner"></div>
+      <p>Cargando colección...</p>
+    </div>
+  </main>
+
+  <!-- Modal: Create / Edit -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="btnCloseModal">✕</button>
+      <h2 class="modal-title" id="modalTitle">Nueva serie</h2>
+
+      <form class="modal-form" id="seriesForm" novalidate>
+        <input type="hidden" id="seriesId" />
+
+        <div class="form-group">
+          <label for="inputTitle">Título *</label>
+          <input type="text" id="inputTitle" placeholder="Ej: The Wire" maxlength="200" />
+          <span class="field-error" id="errTitle"></span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="inputGenre">Género</label>
+            <input type="text" id="inputGenre" placeholder="Drama, Sci-Fi..." maxlength="100" />
+          </div>
+          <div class="form-group">
+            <label for="inputEpisodes">Episodios</label>
+            <input type="number" id="inputEpisodes" placeholder="60" min="0" />
+            <span class="field-error" id="errEpisodes"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputStatus">Estado</label>
+          <select id="inputStatus">
+            <option value="plan_to_watch">Por ver</option>
+            <option value="watching">Viendo</option>
+            <option value="completed">Completada</option>
+            <option value="dropped">Abandonada</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="inputImageURL">URL de portada</label>
+          <input type="url" id="inputImageURL" placeholder="https://..." />
+          <div class="image-preview" id="imagePreview"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputDescription">Descripción</label>
+          <textarea id="inputDescription" placeholder="De qué trata..." rows="3" maxlength="1000"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" id="btnCancelModal">Cancelar</button>
+          <button type="submit" class="btn-primary" id="btnSubmit">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Delete confirmation -->
+  <div class="modal-overlay" id="deleteOverlay">
+    <div class="modal modal--small" id="deleteModal">
+      <div class="delete-icon">▭</div>
+      <h2 class="modal-title">¿Eliminar?</h2>
+      <p class="delete-subtitle" id="deleteSeriesTitle"></p>
+      <p style="color: var(--text-3); font-size: 0.72rem; font-family: var(--font-mono); margin-bottom: 1rem;">Esta acción no se puede deshacer.</p>
+      <div class="form-actions">
+        <button class="btn-secondary" id="btnCancelDelete">Cancelar</button>
+        <button class="btn-danger" id="btnConfirmDelete">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/api.js"></script>
+  <script src="./js/ui.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>
