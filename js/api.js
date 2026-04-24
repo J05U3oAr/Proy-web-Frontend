@@ -1,7 +1,7 @@
 // api.js — All communication with the backend REST API
 // This module knows nothing about HTML. It only deals with data.
 
-const API_BASE = window.APP_CONFIG?.API_BASE_URL || "https://web-production-d62d5.up.railway.app/" ;
+const API_BASE = window.APP_CONFIG?.API_BASE_URL || "https://web-production-42b2c.up.railway.app" ;
 
 /**
  * Generic fetch wrapper that handles JSON parsing and error responses
